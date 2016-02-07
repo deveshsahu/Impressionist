@@ -1,0 +1,101 @@
+impressionistUI.o impressionistUI.P : impressionistUI.cpp /usr/local/include/FL/fl_ask.H \
+ /usr/local/include/FL/Enumerations.H /usr/local/include/FL/Fl_Export.H \
+ /usr/local/include/FL/fl_types.h /usr/include/c++/4.6/algorithm \
+ /usr/include/c++/4.6/utility \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/c++config.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/os_defines.h \
+ /usr/include/features.h /usr/include/x86_64-linux-gnu/bits/predefs.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/c++/4.6/x86_64-linux-gnu/./bits/cpu_defines.h \
+ /usr/include/c++/4.6/bits/stl_relops.h \
+ /usr/include/c++/4.6/bits/stl_pair.h /usr/include/c++/4.6/bits/move.h \
+ /usr/include/c++/4.6/bits/concept_check.h \
+ /usr/include/c++/4.6/bits/stl_algobase.h \
+ /usr/include/c++/4.6/bits/functexcept.h \
+ /usr/include/c++/4.6/bits/exception_defines.h \
+ /usr/include/c++/4.6/bits/cpp_type_traits.h \
+ /usr/include/c++/4.6/ext/type_traits.h \
+ /usr/include/c++/4.6/ext/numeric_traits.h \
+ /usr/include/c++/4.6/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.6/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.6/bits/stl_iterator.h \
+ /usr/include/c++/4.6/debug/debug.h /usr/include/c++/4.6/bits/stl_algo.h \
+ /usr/include/c++/4.6/cstdlib /usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.6/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/byteswap.h /usr/include/xlocale.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/sys/select.h \
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /usr/include/x86_64-linux-gnu/bits/sigset.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+ /usr/include/c++/4.6/bits/algorithmfwd.h \
+ /usr/include/c++/4.6/initializer_list \
+ /usr/include/c++/4.6/bits/stl_heap.h \
+ /usr/include/c++/4.6/bits/stl_tempbuf.h \
+ /usr/include/c++/4.6/bits/stl_construct.h /usr/include/c++/4.6/new \
+ /usr/include/c++/4.6/exception /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+ /usr/include/x86_64-linux-gnu/bits/inf.h \
+ /usr/include/x86_64-linux-gnu/bits/nan.h \
+ /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h impressionistUI.h \
+ /usr/local/include/FL/Fl.H /usr/local/include/FL/fl_utf8.h \
+ /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
+ /usr/include/wchar.h /usr/lib/gcc/x86_64-linux-gnu/4.6/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h /usr/local/include/FL/Xutf8.h \
+ /usr/include/X11/X.h /usr/include/X11/Xlib.h \
+ /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h \
+ /usr/include/X11/Xlocale.h /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/X11/Xutil.h \
+ /usr/include/X11/keysym.h /usr/include/X11/keysymdef.h \
+ /usr/local/include/FL/Fl_Window.H /usr/local/include/FL/Fl_Group.H \
+ /usr/local/include/FL/Fl_Widget.H \
+ /usr/local/include/FL/Fl_File_Chooser.H \
+ /usr/local/include/FL/Fl_Double_Window.H \
+ /usr/local/include/FL/Fl_Window.H /usr/local/include/FL/Fl_Group.H \
+ /usr/local/include/FL/Fl_Choice.H /usr/local/include/FL/Fl_Menu_.H \
+ /usr/local/include/FL/Fl_Menu_Item.H /usr/local/include/FL/Fl_Image.H \
+ /usr/local/include/FL/Fl_Menu_Button.H /usr/local/include/FL/Fl_Button.H \
+ /usr/local/include/FL/Fl_Preferences.H /usr/local/include/FL/Fl_Tile.H \
+ /usr/local/include/FL/Fl_File_Browser.H \
+ /usr/local/include/FL/Fl_Browser.H /usr/local/include/FL/Fl_Browser_.H \
+ /usr/local/include/FL/Fl_Scrollbar.H /usr/local/include/FL/Fl_Slider.H \
+ /usr/local/include/FL/Fl_Valuator.H /usr/local/include/FL/Fl_File_Icon.H \
+ /usr/local/include/FL/Fl.H /usr/local/include/FL/filename.H \
+ /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
+ /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h /usr/local/include/FL/Fl_Box.H \
+ /usr/local/include/FL/Fl_Check_Button.H \
+ /usr/local/include/FL/Fl_Light_Button.H \
+ /usr/local/include/FL/Fl_Button.H /usr/local/include/FL/Fl_File_Input.H \
+ /usr/local/include/FL/Fl_Input.H /usr/local/include/FL/Fl_Input_.H \
+ /usr/local/include/FL/Fl_Return_Button.H \
+ /usr/local/include/FL/Fl_Menu_Bar.H \
+ /usr/local/include/FL/Fl_Value_Slider.H \
+ /usr/local/include/FL/Fl_Light_Button.H \
+ /usr/local/include/FL/Fl_Color_Chooser.H \
+ /usr/local/include/FL/Fl_Value_Input.H /usr/local/include/FL/Fl_Input.H \
+ /usr/local/include/FL/Fl_Round_Button.H impressionist.h \
+ /usr/local/include/FL/gl.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/local/include/FL/glu.h \
+ /usr/include/GL/glu.h impBrush.h originalView.h \
+ /usr/local/include/FL/Fl_Gl_Window.H paintView.h impressionistDoc.h \
+ bitmap.h
