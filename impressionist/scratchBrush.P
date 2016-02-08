@@ -74,5 +74,4 @@ scratchBrush.o scratchBrush.P : scratchBrush.cpp /usr/include/math.h \
  /usr/local/include/FL/Fl_Color_Chooser.H \
  /usr/local/include/FL/Fl_Value_Input.H /usr/local/include/FL/Fl_Input.H \
  /usr/local/include/FL/Fl_Round_Button.H originalView.h \
- /usr/local/include/FL/Fl_Gl_Window.H paintView.h lineBrush.h \
- scratchBrush.h
+ /usr/local/include/FL/Fl_Gl_Window.H paintView.h scratchBrush.h

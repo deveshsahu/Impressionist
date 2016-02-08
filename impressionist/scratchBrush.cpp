@@ -9,7 +9,6 @@
 
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
-#include "lineBrush.h"
 #include "scratchBrush.h"
 
 #define PI 3.14159
@@ -52,7 +51,6 @@ void ScratchBrush::BrushMove( const Point source, const Point target )
 	SetColor( source , alpha );
 	
 	double angle = pDoc->getStrokeAngle();
-	printf("Unknown event!! %f \n",angle);
 	glBegin( GL_LINES );
 		
 		glVertex2d( target.x, target.y );

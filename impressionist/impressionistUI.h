@@ -29,6 +29,7 @@ const int FLT_HEIGHT = 5;
 enum
 {
 	MEAN_FILTER = 7,
+	WT_MEAN_FILTER = 8,
 	NUM_FILTER_TYPE
 };
 
@@ -65,6 +66,7 @@ public:
 	
 	Fl_Button*		m_PreviewFilterButton;
 	Fl_Button*		m_ApplyFilterButton;	
+	Fl_Button*		m_CancelFilterButton;	
 
 	// Member functions
 	void				setDocument(ImpressionistDoc* doc);
@@ -147,8 +149,11 @@ private:
 	
 	static void	cb_apply_filter_button(Fl_Widget* o, void* v);
 	static void	cb_preview_filter_button(Fl_Widget* o, void* v);
-	static void	cb_filter(Fl_Menu_* o, void* v);
+	static void	cb_cancel_filter_button(Fl_Widget* o, void* v);
 	static void	cb_filterChoice(Fl_Widget* o, void* v);
+	
+	static void	cb_filter(Fl_Menu_* o, void* v);
+	
 	static void	cb_setFilterMean(Fl_Widget* o, void* v);
 
 	

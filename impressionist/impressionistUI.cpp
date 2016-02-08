@@ -240,7 +240,9 @@ void ImpressionistUI::cb_exit(Fl_Menu_* o, void* v)
 //------------------------------------------------------------
 void ImpressionistUI::cb_filter(Fl_Menu_* o, void* v) 
 {
+	ImpressionistDoc* pDoc=whoami(o)->getDocument();
 	whoami(o)->m_filterDialog->show();
+	pDoc->setFilterType(7);		// Default filter is mean filter
 
 }
 
@@ -279,6 +281,7 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 //-------------------------------------------------------------
 void ImpressionistUI::cb_filterChoice(Fl_Widget* o, void* v)
 {
+	printf("filterChoice\n");
 	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
 	ImpressionistDoc* pDoc=pUI->getDocument();
 
@@ -288,6 +291,7 @@ void ImpressionistUI::cb_filterChoice(Fl_Widget* o, void* v)
 
 	pDoc->setFilterType(type);
 }
+
 
 //------------------------------------------------------------
 // Clears the paintview canvas.
@@ -300,25 +304,57 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v)
 	pDoc->clearCanvas();
 }
 
-//------------------------------------------------------------
-// Previews the filter
-// Called by the UI when the Preview button is pushed
-//------------------------------------------------------------
-void ImpressionistUI::cb_preview_filter_button(Fl_Widget* o, void* v)
-{
-	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
-	pUI->previewFilter();
 
-}
-//--****-----------------------------------------------------
-// Apply filter
-//-----------------------------------------------------------
-void ImpressionistUI::previewFilter(void)
+void ImpressionistUI::updateFilter(void)
 {
-	/*pDoc->applyFilter(pDoc->m_ucBitmap, pDoc->m_ucPainting,
-		 	 pDoc->m_nWidth, pDoc->m_nHeight, fltKernel, FLT_WIDTH, FLT_HEIGHT, scale, offset);
-	*/	 	 
+
+	switch (m_pDoc->m_filterType){
+		case 7:		// Mean Filter
+			for (int i = 0; i< FLT_HEIGHT; i++)
+				for (int j=0; j<FLT_WIDTH; j++)
+				{
+					fltKernel[i*FLT_WIDTH+j] = 1;
+					
+				}
+			offset = 0;
+			scale = FLT_WIDTH*FLT_HEIGHT;		
+		break;
+		
+		case 8:		// Weighted Mean Filter
+		for (int i = 0; i< FLT_HEIGHT; i++)
+				for (int j=0; j<FLT_WIDTH; j++)
+				{
+					fltKernel[i*FLT_WIDTH+j] = 1;
+					
+				}
+			fltKernel[FLT_HEIGHT/2*FLT_WIDTH+FLT_WIDTH/2]=5;
+			offset = 0;
+			scale = FLT_WIDTH*FLT_HEIGHT+4;	
+		break;
+		
+		case 9:		// Sobelx filter
+		
+		break;
+		
+		case 10:		// Sobely filter
+		
+		break;
+		
+		case 11:		// Sobel Combined filter
+		
+		break;
+
+		case 12:		// Laplacian
+		
+		break;
+
+		
+		default:
+		break;
+		
+		}
 }
+
 //--****------------------------------------------------------
 // Applies the filter
 // Called by the UI when the Apply Filter button is pushed
@@ -327,23 +363,36 @@ void ImpressionistUI::cb_apply_filter_button(Fl_Widget* o, void* v)
 {
 	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
 	pUI->applyFilter();
+	// Refresh the painview
+	pUI->m_origView->refresh();
+}
+
+//------------------------------------------------------------
+// Previews the filter
+// Called by the UI when the Preview button is pushed
+//------------------------------------------------------------
+void ImpressionistUI::cb_preview_filter_button(Fl_Widget* o, void* v)
+{
+	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
+	pUI->previewFilter();
+	pUI->m_origView->refresh();
+
 }
 
 //--****------------------------------------------------------
-// Sets the Filter Kernel to Mean 
-// Called by the UI when the Mean Filter is selected
+// Restores the Image to before applying
+// Called by the UI when the Cancel Filter Button is pressed
 //------------------------------------------------------------
-void ImpressionistUI::cb_setFilterMean(Fl_Widget* o, void* v)
+
+void ImpressionistUI::cb_cancel_filter_button(Fl_Widget* o, void* v)
 {
+	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
 	
-	pUI->scale = double (1/25); 
-	pUI->offset = double (0);
+	pDoc->m_ucBitmap = pDoc->m_ucPreviewBackup;
 	
-	for (int i = 0; i < FLT_HEIGHT; i++)
-			for (int j = 0; j<FLT_WIDTH; j++){
-				pUI->fltKernel[i*FLT_WIDTH+j] = 1.0;
-			}
+	pUI->m_origView->refresh();
+	
 }
 
 //--****-----------------------------------------------------
@@ -351,9 +400,35 @@ void ImpressionistUI::cb_setFilterMean(Fl_Widget* o, void* v)
 //-----------------------------------------------------------
 void ImpressionistUI::applyFilter(void)
 {
-	m_pDoc->applyFilter(m_pDoc->m_ucBitmap, m_pDoc->m_nWidth, m_pDoc->m_nHeight, m_pDoc->m_ucPainting,
+	updateFilter();
+	m_pDoc->m_ucPreviewBackup = m_pDoc->m_ucBitmap;
+		// Delete the old memory space
+	m_pDoc->m_ucBitmap = new unsigned char [m_pDoc->m_nWidth*m_pDoc->m_nHeight*3];
+		// Allocate new memory
+
+	m_pDoc->applyFilter(m_pDoc->m_ucPreviewBackup, m_pDoc->m_nWidth, m_pDoc->m_nHeight, m_pDoc->m_ucBitmap,
 		 	 fltKernel, FLT_WIDTH, FLT_HEIGHT, scale, offset);
+	m_pDoc->m_ucPreviewBackup = new unsigned char [m_pDoc->m_nWidth*m_pDoc->m_nHeight*3];
+	
 }
+
+//--****-----------------------------------------------------
+// Preview filter
+//-----------------------------------------------------------
+void ImpressionistUI::previewFilter(void)
+{
+	updateFilter();
+		//Update the filter
+	m_pDoc->m_ucPreviewBackup = m_pDoc->m_ucBitmap;
+		// Create a backup
+		// Delete the old memory space
+	m_pDoc->m_ucBitmap = new unsigned char [m_pDoc->m_nWidth*m_pDoc->m_nHeight*3];
+		// Allocate new memory
+	m_pDoc->applyFilter(m_pDoc->m_ucPreviewBackup, m_pDoc->m_nWidth, m_pDoc->m_nHeight, m_pDoc->m_ucBitmap,
+		 	 fltKernel, FLT_WIDTH, FLT_HEIGHT, scale, offset);
+		// Apply the filter
+}
+
 //-----------------------------------------------------------
 // Updates the brush size to use from the value of the size
 // slider
@@ -604,7 +679,8 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE+1] = {
 };
 
 Fl_Menu_Item ImpressionistUI::filterTypeMenu[NUM_FILTER_TYPE+1] = {
-  {"Mean",			FL_ALT+'n', (Fl_Callback *)ImpressionistUI::cb_setFilterMean, (void *)MEAN_FILTER},
+  {"Mean",			FL_ALT+'n', (Fl_Callback *)ImpressionistUI::cb_filterChoice, (void *)MEAN_FILTER},
+  {"Weighted Mean",		FL_ALT+'k', (Fl_Callback *)ImpressionistUI::cb_filterChoice, (void *)WT_MEAN_FILTER},
   {0}
 };
 
@@ -748,21 +824,24 @@ ImpressionistUI::ImpressionistUI() {
     m_brushDialog->end();	
 
     // Dialogue box for Filters
-    m_filterDialog = new Fl_Window(300, 100, "Filter Dialog");
+    m_filterDialog = new Fl_Window(260, 120, "Filter Dialog");
 		// Add a filter type choice to the dialog
 		m_filterTypeChoice = new Fl_Choice(100,10,100,25,"&Filter");
 		m_filterTypeChoice->user_data((void*)(this));	// record self to be used by static callback functions
 		m_filterTypeChoice->menu(filterTypeMenu);
 		m_filterTypeChoice->callback(cb_filterChoice);
 
-		m_PreviewFilterButton = new Fl_Button(20,50,50,25,"&Preview");
+		m_PreviewFilterButton = new Fl_Button(20,50,60,25,"&Preview");
 		m_PreviewFilterButton->user_data((void*)(this));
 		m_PreviewFilterButton->callback(cb_preview_filter_button);
 
-		m_ApplyFilterButton = new Fl_Button(150,50,50,25,"&Apply");
+		m_ApplyFilterButton = new Fl_Button(180,50,60,25,"&Apply");
 		m_ApplyFilterButton->user_data((void*)(this));
 		m_ApplyFilterButton->callback(cb_apply_filter_button);
 
+		m_CancelFilterButton = new Fl_Button(100,50,60,25,"&Cancel");
+		m_CancelFilterButton->user_data((void*)(this));
+		m_CancelFilterButton->callback(cb_cancel_filter_button);
     m_filterDialog->end();	
 
 }

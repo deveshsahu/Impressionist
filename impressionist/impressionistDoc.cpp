@@ -94,7 +94,6 @@ void ImpressionistDoc::setBrushType(int type)
 //---------------------------------------------------------
 void ImpressionistDoc::setFilterType(int type)
 {
-	//m_pCurrentBrush	= ImpBrush::c_pBrushes[type];
 	m_filterType = type;
 }
 
@@ -214,8 +213,8 @@ void ImpressionistDoc::getMouseAngle(Point source, Point target)
 	{	if (target.x == source.x)			
 			m_pUI->setStrokeAngle(1.58);
 		else{
-			m_pUI->setStrokeAngle(atan((target.y-source.y)/(target.x-source.x)));	
-			printf("Unknown event!! %d, %d, %d, %d\n",target.x,target.y, source.x, source.y);
+			m_pUI->setStrokeAngle(6.28-atan((double)(target.y-source.y)/(target.x-source.x)));	
+			//printf("Unknown event!! %d, %d, %d, %d\n",target.x,target.y, source.x, source.y);
 		}
 	}
 }
@@ -294,17 +293,20 @@ void ImpressionistDoc::applyFilter( const unsigned char* sourceBuffer,
 		int knlWidth, int knlHeight, 
 		double divisor, double offset )
 {
+
 	for (int i = 0; i< srcBufferHeight;i++)
 		for (int j = 0; j < srcBufferWidth; j++)
 		{
-			double tempR = 0;
-			double tempG = 0;
-			double tempB = 0;
+			
+			
+			int tempR = 0;
+			int tempG = 0;
+			int tempB = 0;
 				
 			for (int l = 0; l < knlHeight; l++ )
 				for (int m=0; m < knlWidth; m++)
 				{	
-					int ii = i+m-knlWidth, jj = j+m-knlWidth;
+					int ii = i+l-knlHeight, jj = j+m-knlWidth;
 					if (ii < 0)
 						ii = ii + srcBufferHeight;
 					else if (ii >= srcBufferHeight)
@@ -314,19 +316,18 @@ void ImpressionistDoc::applyFilter( const unsigned char* sourceBuffer,
 						jj = jj + srcBufferWidth;
 					else if (jj >= srcBufferWidth)
 						jj = jj - srcBufferWidth;
+						
 					tempR = tempR + sourceBuffer[3*(ii*srcBufferWidth+jj)+0] *filterKernel[l*knlWidth+m] ;
 					tempG = tempG + sourceBuffer[3*(ii*srcBufferWidth+jj)+1] *filterKernel[l*knlWidth+m] ;
 					tempB = tempB + sourceBuffer[3*(ii*srcBufferWidth+jj)+2] *filterKernel[l*knlWidth+m] ;
 				}
 			if (divisor)
-				{tempR = tempR/divisor; tempG=tempG/divisor; tempB=tempB/divisor;}
+				{tempR = (int)tempR/divisor; tempG=(int)tempG/divisor; tempB=(int)tempB/divisor;}
 			destBuffer[3*(i*srcBufferWidth+j)+0] = tempR + offset;
 			destBuffer[3*(i*srcBufferWidth+j)+1] = tempG + offset;
 			destBuffer[3*(i*srcBufferWidth+j)+2] = tempB + offset;
 		}
-		m_pUI->m_paintView->refresh();
 			
-
 }
 
 

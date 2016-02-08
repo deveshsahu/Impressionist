@@ -65,6 +65,7 @@ public:
 	
 	Fl_Button*		m_PreviewFilterButton;
 	Fl_Button*		m_ApplyFilterButton;	
+	Fl_Button*		m_CancelFilterButton;	
 
 	// Member functions
 	void				setDocument(ImpressionistDoc* doc);
@@ -98,8 +99,6 @@ public:
 	void				cancelFilter(void);
 	void				applyFilter(void);
 	void				previewFilter(void);
-	
-	void				setScaleOffset(double scal, double off);
 
 
 private:
@@ -149,8 +148,11 @@ private:
 	
 	static void	cb_apply_filter_button(Fl_Widget* o, void* v);
 	static void	cb_preview_filter_button(Fl_Widget* o, void* v);
-	static void	cb_filter(Fl_Menu_* o, void* v);
+	static void	cb_cancel_filter_button(Fl_Widget* o, void* v);
 	static void	cb_filterChoice(Fl_Widget* o, void* v);
+	
+	static void	cb_filter(Fl_Menu_* o, void* v);
+	
 	static void	cb_setFilterMean(Fl_Widget* o, void* v);
 
 	
