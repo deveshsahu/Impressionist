@@ -51,7 +51,8 @@ void ScratchBrush::BrushMove( const Point source, const Point target )
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	SetColor( source , alpha );
 	
-	double angle = pDoc->getStrokeAngle()*PI/180;
+	double angle = pDoc->getStrokeAngle();
+	printf("Unknown event!! %f \n",angle);
 	glBegin( GL_LINES );
 		
 		glVertex2d( target.x, target.y );

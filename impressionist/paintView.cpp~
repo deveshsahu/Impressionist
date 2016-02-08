@@ -29,7 +29,6 @@
 static int		eventToDo;
 static int		isAnEvent=0;
 static Point	coord;
-static Point	displacement;
 
 PaintView::PaintView(int			x, 
 					 int			y, 
@@ -65,6 +64,7 @@ void PaintView::draw()
 	}
 
 	Point scrollpos;// = GetScrollPosition();
+	Point origin, present; // For dragging
 	scrollpos.x = 0;
 	scrollpos.y	= 0;
 
@@ -103,6 +103,7 @@ void PaintView::draw()
 
 		Point source( coord.x + m_nStartCol, m_nEndRow - coord.y );
 		Point target( coord.x, m_nWindowHeight - coord.y );
+
 		
 		// This is the event handler
 		switch (eventToDo) 
@@ -115,21 +116,20 @@ void PaintView::draw()
 			break;
 		case LEFT_MOUSE_UP:
 			m_pDoc->m_pCurrentBrush->BrushEnd( source, target );
-
+	
 			SaveCurrentContent();
 			RestoreContent();
 			break;
 		case RIGHT_MOUSE_DOWN:
-
+			origin.x = Fl::event_x();
+			origin.y = Fl::event_y();
 			break;
 		case RIGHT_MOUSE_DRAG:
-			if (m_pDoc->m_pUI->m_strokeDir2->value())
-			{
-				m_pDoc->m_pUI->setStrokeAngle(atan(Fl::event_dy()/Fl::event_dx()));
-			}
 			break;
 		case RIGHT_MOUSE_UP:
-
+			present.x = Fl::event_x();
+			present.y = Fl::event_y();
+			m_pDoc->getMouseAngle(origin,present );
 			break;
 
 		default:

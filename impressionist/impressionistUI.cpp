@@ -306,23 +306,54 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v)
 //------------------------------------------------------------
 void ImpressionistUI::cb_preview_filter_button(Fl_Widget* o, void* v)
 {
-	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
+	pUI->previewFilter();
 
-//	pDoc->clearCanvas();
 }
-
-//------------------------------------------------------------
-// Previews the filter
-// Called by the UI when the Preview button is pushed
+//--****-----------------------------------------------------
+// Apply filter
+//-----------------------------------------------------------
+void ImpressionistUI::previewFilter(void)
+{
+	/*pDoc->applyFilter(pDoc->m_ucBitmap, pDoc->m_ucPainting,
+		 	 pDoc->m_nWidth, pDoc->m_nHeight, fltKernel, FLT_WIDTH, FLT_HEIGHT, scale, offset);
+	*/	 	 
+}
+//--****------------------------------------------------------
+// Applies the filter
+// Called by the UI when the Apply Filter button is pushed
 //------------------------------------------------------------
 void ImpressionistUI::cb_apply_filter_button(Fl_Widget* o, void* v)
 {
-	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
-
-//	pDoc->clearCanvas();
+	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
+	pUI->applyFilter();
 }
 
+//--****------------------------------------------------------
+// Sets the Filter Kernel to Mean 
+// Called by the UI when the Mean Filter is selected
+//------------------------------------------------------------
+void ImpressionistUI::cb_setFilterMean(Fl_Widget* o, void* v)
+{
+	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
+	
+	pUI->scale = double (1/25); 
+	pUI->offset = double (0);
+	
+	for (int i = 0; i < FLT_HEIGHT; i++)
+			for (int j = 0; j<FLT_WIDTH; j++){
+				pUI->fltKernel[i*FLT_WIDTH+j] = 1.0;
+			}
+}
 
+//--****-----------------------------------------------------
+// Apply filter
+//-----------------------------------------------------------
+void ImpressionistUI::applyFilter(void)
+{
+	m_pDoc->applyFilter(m_pDoc->m_ucBitmap, m_pDoc->m_nWidth, m_pDoc->m_nHeight, m_pDoc->m_ucPainting,
+		 	 fltKernel, FLT_WIDTH, FLT_HEIGHT, scale, offset);
+}
 //-----------------------------------------------------------
 // Updates the brush size to use from the value of the size
 // slider
@@ -369,22 +400,8 @@ void ImpressionistUI::cb_strokeAngle(Fl_Widget* o, void* v)
 		ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
 		ImpressionistDoc* pDoc=pUI->getDocument();
 		if (pUI->m_strokeDir1->value())
-				((ImpressionistUI*)(o->user_data()))->m_nAngle=int( ((Fl_Slider *)o)->value() ) ;
+				((ImpressionistUI*)(o->user_data()))->m_nAngle=int( ((Fl_Slider *)o)->value() )*3.14/180 ;
 	}
-
-//--****-------------------------------------------
-// Switch to stroke direction as specified using
-// the cursor movement
-//-------------------------------------------------
-/*void ImpressionistUI::cb_stroke(Fl_Widget* o, void* v)
-{
-	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
-	ImpressionistDoc* pDoc=pUI->getDocument();
-
-	int type=(int)v;
-
-	pDoc->setMyType(type); 
-}*/
 
 //--****-------------------------------------------
 // Switch to stroke direction as specified using
@@ -550,7 +567,7 @@ void ImpressionistUI::setStrokeAngle( double angle)
 {
 	m_nAngle=angle;
 	
-	if (angle<=360)
+	if (angle<=360 && m_strokeDir1->value())
 		m_BrushStrokeAngleSlider->value(m_nAngle);
 }
 
@@ -587,7 +604,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE+1] = {
 };
 
 Fl_Menu_Item ImpressionistUI::filterTypeMenu[NUM_FILTER_TYPE+1] = {
-  {"Gaussian",			FL_ALT+'n', (Fl_Callback *)ImpressionistUI::cb_filterChoice, (void *)BRUSH_POINTS},
+  {"Mean",			FL_ALT+'n', (Fl_Callback *)ImpressionistUI::cb_setFilterMean, (void *)MEAN_FILTER},
   {0}
 };
 

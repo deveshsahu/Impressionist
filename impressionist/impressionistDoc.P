@@ -91,4 +91,11 @@ impressionistDoc.o impressionistDoc.P : impressionistDoc.cpp /usr/local/include/
  /usr/local/include/FL/Fl_Value_Input.H /usr/local/include/FL/Fl_Input.H \
  /usr/local/include/FL/Fl_Round_Button.H originalView.h \
  /usr/local/include/FL/Fl_Gl_Window.H paintView.h pointBrush.h \
- lineBrush.h scratchBrush.h sprayBrush.h circleBrush.h csprayBrush.h
+ lineBrush.h scratchBrush.h sprayBrush.h circleBrush.h csprayBrush.h \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+ /usr/include/x86_64-linux-gnu/bits/inf.h \
+ /usr/include/x86_64-linux-gnu/bits/nan.h \
+ /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h

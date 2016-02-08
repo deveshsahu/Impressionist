@@ -23,6 +23,8 @@
 #include "circleBrush.h"
 #include "csprayBrush.h"
 
+#include "math.h"
+
 
 #define DESTROY(p)	{  if ((p)!=NULL) {delete [] p; p=NULL; } }
 
@@ -93,7 +95,18 @@ void ImpressionistDoc::setBrushType(int type)
 void ImpressionistDoc::setFilterType(int type)
 {
 	//m_pCurrentBrush	= ImpBrush::c_pBrushes[type];
+	m_filterType = type;
 }
+
+//--****---------------------------------------------------
+// Retrieve the current filter type
+//---------------------------------------------------------
+int ImpressionistDoc::getFilterType()
+{
+	//m_pCurrentBrush	= ImpBrush::c_pBrushes[type];
+	return	m_filterType ;
+}
+
 
 void ImpressionistDoc::setStrokeAngle(double angle)
 {
@@ -191,6 +204,21 @@ int ImpressionistDoc::loadImage(char *iname)
 	return 1;
 }
 
+//-****----------------------------------------------------------
+// Get stroke angle from right mouse drag
+//---------------------------------------------------------------
+
+void ImpressionistDoc::getMouseAngle(Point source, Point target)
+{
+	if ( m_pUI->m_strokeDir2->value())
+	{	if (target.x == source.x)			
+			m_pUI->setStrokeAngle(1.58);
+		else{
+			m_pUI->setStrokeAngle(atan((target.y-source.y)/(target.x-source.x)));	
+			printf("Unknown event!! %d, %d\n",target.x,target.y);
+		}
+	}
+}
 
 //----------------------------------------------------------------
 // Save the specified image
@@ -278,7 +306,7 @@ void ImpressionistDoc::applyFilter( const unsigned char* sourceBuffer,
 				{	
 					int ii = i+m-knlWidth, jj = j+m-knlWidth;
 					if (ii < 0)
-						ii = ii + srcBufferHeigth;
+						ii = ii + srcBufferHeight;
 					else if (ii >= srcBufferHeight)
 						ii = ii - srcBufferHeight;
 					
@@ -286,16 +314,17 @@ void ImpressionistDoc::applyFilter( const unsigned char* sourceBuffer,
 						jj = jj + srcBufferWidth;
 					else if (jj >= srcBufferWidth)
 						jj = jj - srcBufferWidth;
-					tempR = tempR + sourceBuffer[3*(ii*srcBufferWidth+jj)+0] *filter[l*knlWidth+m] ;
-					tempG = tempG + sourceBuffer[3*(ii*srcBufferWidth+jj)+1] *filter[l*knlWidth+m] ;
-					tempB = tempB + sourceBuffer[3*(ii*srcBufferWidth+jj)+2] *filter[l*knlWidth+m] ;
+					tempR = tempR + sourceBuffer[3*(ii*srcBufferWidth+jj)+0] *filterKernel[l*knlWidth+m] ;
+					tempG = tempG + sourceBuffer[3*(ii*srcBufferWidth+jj)+1] *filterKernel[l*knlWidth+m] ;
+					tempB = tempB + sourceBuffer[3*(ii*srcBufferWidth+jj)+2] *filterKernel[l*knlWidth+m] ;
 				}
-			if (divisor > 0)
+			if (divisor)
 				{tempR = tempR/divisor; tempG=tempG/divisor; tempB=tempB/divisor;}
 			destBuffer[3*(i*srcBufferWidth+j)+0] = tempR + offset;
 			destBuffer[3*(i*srcBufferWidth+j)+1] = tempG + offset;
 			destBuffer[3*(i*srcBufferWidth+j)+2] = tempB + offset;
 		}
+		m_pUI->m_paintView->refresh();
 			
 
 }

@@ -28,7 +28,7 @@ const int FLT_WIDTH = 5;
 const int FLT_HEIGHT = 5;
 enum
 {
-	GAUSSIAN_FILTER = 7,
+	MEAN_FILTER = 7,
 	NUM_FILTER_TYPE
 };
 
@@ -149,6 +149,7 @@ private:
 	static void	cb_preview_filter_button(Fl_Widget* o, void* v);
 	static void	cb_filter(Fl_Menu_* o, void* v);
 	static void	cb_filterChoice(Fl_Widget* o, void* v);
+	static void	cb_setFilterMean(Fl_Widget* o, void* v);
 
 	
 };

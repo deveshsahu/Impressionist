@@ -39,6 +39,7 @@ public:
 	int		getDensity();			// get the UI brush scatter density
 	int		getAlpha();			// get the UI brush tranparency
 	double		getStrokeAngle();		// get the UI brush stroke angle
+	int	getFilterType();			// get the UI brush filter type
 	void	setSize(int size);				// set the UI size
 	void	setThickness(int thickness);			// set the UI thickness
 	void	setDensity(int density);			// set the UI density
@@ -46,6 +47,7 @@ public:
 	void	setStrokeAngle(double angle);			// set the UI brush stroke angle
 	
 	char*	getImageName();					// get the current image name
+	void	getMouseAngle(Point source, Point target);
 	
 
 // Attributes
@@ -76,6 +78,8 @@ public:
 	int m_nDensity;
 	// Brush Angle
 	double m_nAngle;
+	
+	int m_filterType;
 	
 	ImpressionistUI*	m_pUI;
 
